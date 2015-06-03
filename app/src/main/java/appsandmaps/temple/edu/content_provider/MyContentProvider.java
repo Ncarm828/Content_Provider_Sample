@@ -3,6 +3,8 @@ package appsandmaps.temple.edu.content_provider;
 import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.database.Cursor;
+
+import java.io.IOException;
 import java.util.HashMap;
 
 import android.content.ContentProvider;
@@ -15,6 +17,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.text.TextUtils;
 
     /*
@@ -37,7 +40,7 @@ import android.text.TextUtils;
 
     */
 
-public class MyContentProvider extends ContentProvider {
+public class MyContentProvider extends ContentProvider implements AsyncResponse {
 
     //Utility class to aid in matching URIs in content providers.
     private static final UriMatcher sUriMatcher;
@@ -77,7 +80,7 @@ public class MyContentProvider extends ContentProvider {
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
-    //returns the path
+    //returns the path to either the whole table or an element in the table
     @Override
     public String getType(Uri uri) {
         switch (sUriMatcher.match(uri)) {
@@ -115,8 +118,56 @@ public class MyContentProvider extends ContentProvider {
 
     @Override
     public boolean onCreate() {
-        mDbHelper = new NotesDBHelper(getContext());
+        UpdateActivityClass GetData = new UpdateActivityClass();
+        //try {
+        GetData.delegate = this;
+
+        GetData.execute();//.wait();
+        //} catch (InterruptedException e) {
+        //    e.printStackTrace();
+       // }
+
+            mDbHelper = new NotesDBHelper(getContext());
+
+
+
         return false;
+    }
+
+    public void InsertData() {
+
+        SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        Cursor mCursor = db.rawQuery("SELECT * FROM " + ContractClass.NotesTable.TABLE_NAME, null);
+        Boolean rowExists;
+
+        if (mCursor.moveToFirst()) {
+            ContentValues args = new ContentValues();
+            args.put(ContractClass.NotesTable.TITLE, "Mike");
+            args.put(ContractClass.NotesTable.CONTENT, ContractClass.DataBaseInfoHolder);
+            db.update(ContractClass.NotesTable.TABLE_NAME, args, ContractClass.NotesTable.ID + "=" + 20, null);
+            rowExists = true;
+
+        } else {
+            // I AM EMPTY
+            ContentValues values = new ContentValues();
+            values.put(ContractClass.NotesTable.TITLE, "Mike");
+            values.put(ContractClass.NotesTable.CONTENT, ContractClass.DataBaseInfoHolder);
+
+            long rowId = db.insert(ContractClass.NotesTable.TABLE_NAME, null, values);
+            if (rowId > 0) {
+                Uri notesUri = ContentUris.withAppendedId(
+                        ContractClass.CONTENT_URI, rowId);
+                getContext().getContentResolver().notifyChange(notesUri, null);
+                rowExists = false;
+            }
+        }
+    }
+
+    public void ProcessFinish(String results) {
+            CharSequence SubString = results.subSequence(31,36);
+            ContractClass.DataBaseInfoHolder = SubString.toString();
+            InsertData();
+
     }
 
     @Override
@@ -175,6 +226,7 @@ public class MyContentProvider extends ContentProvider {
 
 
 
+
     private static class NotesDBHelper extends SQLiteOpenHelper {
 
         public NotesDBHelper(Context c) {
@@ -203,4 +255,5 @@ public class MyContentProvider extends ContentProvider {
             onCreate(db);
         }
     }
+
 }
