@@ -19,6 +19,7 @@ public class ContractClass {
     public static final String CONTENT_TYPE_NOTES_ALL = "vnd.android.cursor.dir/vnd.edu.temple.provider.steps";
     public static final String CONTENT_TYPE_NOTES_ONE = "vnd.android.cursor.item/vnd.edu.temple.provider.steps";
 
+    public static String DataBaseInfoHolder = "NULL";
 
 
     public class NotesTable implements BaseColumns {
