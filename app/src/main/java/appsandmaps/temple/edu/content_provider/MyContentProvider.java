@@ -219,6 +219,11 @@ public class MyContentProvider extends ContentProvider implements AsyncResponse 
         return count;
     }
 
+    //This is a dummy function for getting some experience
+    public int getExperience(){
+        return 3000;
+    }
+
 
 
 
