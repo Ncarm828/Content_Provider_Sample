@@ -4,20 +4,15 @@ import android.content.ContentProvider;
 import android.content.ContentValues;
 import android.database.Cursor;
 
-import java.io.IOException;
 import java.util.HashMap;
 
-import android.content.ContentProvider;
 import android.content.ContentUris;
-import android.content.ContentValues;
 import android.content.Context;
 import android.content.UriMatcher;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.text.TextUtils;
 
     /*
@@ -59,20 +54,20 @@ public class MyContentProvider extends ContentProvider implements AsyncResponse 
     private static final HashMap<String, String> sNotesColumnProjectionMap;
     static {
         sNotesColumnProjectionMap = new HashMap<String, String>();
-        sNotesColumnProjectionMap.put(ContractClass.NotesTable.ID,ContractClass.NotesTable.ID);
-        sNotesColumnProjectionMap.put(ContractClass.NotesTable.TITLE,ContractClass.NotesTable.TITLE);
-        sNotesColumnProjectionMap.put(ContractClass.NotesTable.CONTENT, ContractClass.NotesTable.CONTENT);
+        sNotesColumnProjectionMap.put(ContractClass.FitNessTable.ID, ContractClass.FitNessTable.ID);
+        sNotesColumnProjectionMap.put(ContractClass.FitNessTable.STEPS, ContractClass.FitNessTable.STEPS);
+        sNotesColumnProjectionMap.put(ContractClass.FitNessTable.EXPERIENCE, ContractClass.FitNessTable.EXPERIENCE);
     }
 
     // create a db helper object
-    private NotesDBHelper mDbHelper;
+    private FitnessDBHelper mDbHelper;
 
     //Constructor
     public MyContentProvider() {
     }
 
     //Delete method is not implemented because the content provider does not have access to deleting
-    //database information. Tihs is delth within another part of the application
+    //database information. This is delth within another part of the application
     //If called if will throw a Error
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
@@ -104,7 +99,7 @@ public class MyContentProvider extends ContentProvider implements AsyncResponse 
 
         // Insert once row
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
-        long rowId = db.insert(ContractClass.NotesTable.TABLE_NAME, null,
+        long rowId = db.insert(ContractClass.FitNessTable.TABLE_NAME, null,
                 values);
         if (rowId > 0) {
             Uri notesUri = ContentUris.withAppendedId(
@@ -113,6 +108,7 @@ public class MyContentProvider extends ContentProvider implements AsyncResponse 
             return notesUri;
         }
         throw new IllegalArgumentException("<Illegal>Unknown URI: " + uri);
+
     }
 
 
@@ -127,33 +123,33 @@ public class MyContentProvider extends ContentProvider implements AsyncResponse 
         //    e.printStackTrace();
        // }
 
-            mDbHelper = new NotesDBHelper(getContext());
+            mDbHelper = new FitnessDBHelper(getContext());
 
 
 
         return false;
     }
 
-    public void InsertData() {
+    private void InsertData() {
 
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
-        Cursor mCursor = db.rawQuery("SELECT * FROM " + ContractClass.NotesTable.TABLE_NAME, null);
+        Cursor mCursor = db.rawQuery("SELECT * FROM " + ContractClass.FitNessTable.TABLE_NAME, null);
         Boolean rowExists;
 
         if (mCursor.moveToFirst()) {
             ContentValues args = new ContentValues();
-            args.put(ContractClass.NotesTable.TITLE, "Mike");
-            args.put(ContractClass.NotesTable.CONTENT, ContractClass.DataBaseInfoHolder);
-            db.update(ContractClass.NotesTable.TABLE_NAME, args, ContractClass.NotesTable.ID + "=" + 20, null);
+            args.put(ContractClass.FitNessTable.STEPS, MainActivity.Steps);
+            args.put(ContractClass.FitNessTable.EXPERIENCE, ContractClass.DataBaseInfoHolder);
+            db.update(ContractClass.FitNessTable.TABLE_NAME, args, ContractClass.FitNessTable.ID + "=" + 1, null);
             rowExists = true;
 
         } else {
             // I AM EMPTY
             ContentValues values = new ContentValues();
-            values.put(ContractClass.NotesTable.TITLE, "Mike");
-            values.put(ContractClass.NotesTable.CONTENT, ContractClass.DataBaseInfoHolder);
+            values.put(ContractClass.FitNessTable.STEPS, MainActivity.Steps);
+            values.put(ContractClass.FitNessTable.EXPERIENCE, ContractClass.DataBaseInfoHolder);
 
-            long rowId = db.insert(ContractClass.NotesTable.TABLE_NAME, null, values);
+            long rowId = db.insert(ContractClass.FitNessTable.TABLE_NAME, null, values);
             if (rowId > 0) {
                 Uri notesUri = ContentUris.withAppendedId(
                         ContractClass.CONTENT_URI, rowId);
@@ -176,14 +172,14 @@ public class MyContentProvider extends ContentProvider implements AsyncResponse 
         SQLiteQueryBuilder builder = new SQLiteQueryBuilder();
         switch (sUriMatcher.match(uri)) {
             case NOTES_ALL:
-                builder.setTables(ContractClass.NotesTable.TABLE_NAME);
+                builder.setTables(ContractClass.FitNessTable.TABLE_NAME);
                 builder.setProjectionMap(sNotesColumnProjectionMap);
                 break;
 
             case NOTES_ONE:
-                builder.setTables(ContractClass.NotesTable.TABLE_NAME);
+                builder.setTables(ContractClass.FitNessTable.TABLE_NAME);
                 builder.setProjectionMap(sNotesColumnProjectionMap);
-                builder.appendWhere(ContractClass.NotesTable.ID + " = "
+                builder.appendWhere(ContractClass.FitNessTable.ID + " = "
                         + uri.getLastPathSegment());
                 break;
 
@@ -206,14 +202,14 @@ public class MyContentProvider extends ContentProvider implements AsyncResponse 
         int count = 0;
         switch (sUriMatcher.match(uri)) {
             case NOTES_ALL:
-                count = db.update(ContractClass.NotesTable.TABLE_NAME, values,
+                count = db.update(ContractClass.FitNessTable.TABLE_NAME, values,
                         selection, selectionArgs);
                 break;
 
             case NOTES_ONE:
                 String rowId = uri.getLastPathSegment();
-                count = db.update(ContractClass.NotesTable.TABLE_NAME, values,
-                                ContractClass.NotesTable.ID + " = " + rowId + (!TextUtils.isEmpty(selection) ? " AND (" + ")" : ""), selectionArgs);
+                count = db.update(ContractClass.FitNessTable.TABLE_NAME, values,
+                                ContractClass.FitNessTable.ID + " = " + rowId + (!TextUtils.isEmpty(selection) ? " AND (" + ")" : ""), selectionArgs);
 
             default:
                 throw new IllegalArgumentException("Unknown URI: " + uri);
@@ -227,19 +223,19 @@ public class MyContentProvider extends ContentProvider implements AsyncResponse 
 
 
 
-    private static class NotesDBHelper extends SQLiteOpenHelper {
+    private static class FitnessDBHelper extends SQLiteOpenHelper {
 
-        public NotesDBHelper(Context c) {
+        public FitnessDBHelper(Context c) {
             super(c, ContractClass.DATABASE_NAME, null,
                     ContractClass.DATABASE_VERSION);
         }
 
         private static final String SQL_QUERY_CREATE = "CREATE TABLE "
-                + ContractClass.NotesTable.TABLE_NAME + " ("
-                + ContractClass.NotesTable.ID
+                + ContractClass.FitNessTable.TABLE_NAME + " ("
+                + ContractClass.FitNessTable.ID
                 + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + ContractClass.NotesTable.TITLE + " TEXT NOT NULL, "
-                + ContractClass.NotesTable.CONTENT + " TEXT NOT NULL" + ");";
+                + ContractClass.FitNessTable.STEPS + " TEXT NOT NULL, "
+                + ContractClass.FitNessTable.EXPERIENCE + " TEXT NOT NULL" + ");";
 
         @Override
         public void onCreate(SQLiteDatabase db) {
@@ -247,7 +243,7 @@ public class MyContentProvider extends ContentProvider implements AsyncResponse 
         }
 
         private static final String SQL_QUERY_DROP = "DROP TABLE IF EXISTS "
-                + ContractClass.NotesTable.TABLE_NAME + ";";
+                + ContractClass.FitNessTable.TABLE_NAME + ";";
 
         @Override
         public void onUpgrade(SQLiteDatabase db, int oldVer, int newVer) {
