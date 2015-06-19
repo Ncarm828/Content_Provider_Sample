@@ -22,17 +22,17 @@ public class ContractClass {
     public static String DataBaseInfoHolder = "NULL";
 
 
-    public class NotesTable implements BaseColumns {
+    public class FitNessTable implements BaseColumns {
 
-        private NotesTable() {
+        private FitNessTable() {
 
         }
 
         public static final String TABLE_NAME = "tbl_notes";
 
         public static final String ID = "_id";
-        public static final String TITLE = "title";
-        public static final String CONTENT = "content";
+        public static final String STEPS = "title";
+        public static final String EXPERIENCE = "content";
     }
 
 

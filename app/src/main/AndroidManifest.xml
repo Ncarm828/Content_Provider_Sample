@@ -4,8 +4,11 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-    <uses-permission android:name="edu.temple.app.provider.permission.READ_PROVIDER"></uses-permission>
-    <uses-permission android:name="edu.temple.app.provider.permission.WRITE_PROVIDER"></uses-permission>
+    <uses-permission android:name="edu.temple.app.provider.permission.READ_PROVIDER" />
+    <uses-permission android:name="edu.temple.app.provider.permission.WRITE_PROVIDER" />
+    <uses-permission android:name="com.samsung.android.sdk.permission.REMOTE_SENSOR_SERVICE" />
+    <uses-permission android:name="com.samsung.android.providers.context.permission.WRITE_USE_APP_FEATURE_SURVEY" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"></uses-permission>
 
     <application
         android:allowBackup="true"
@@ -26,8 +29,15 @@
             android:name=".MyContentProvider"
             android:authorities="edu.temple.app.provider"
             android:enabled="true"
-            android:exported="true">
+            android:exported="true" >
         </provider>
+        <receiver android:name=".AlarmReceiver"></receiver>
+        <receiver android:name=".ReBootNotif"
+            android:enabled="false">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
