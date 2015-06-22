@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Content_Provider</string>
     <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">Calendar</string>
 
     <string name="user_activity_str">User Activity</string>
     <string name="pedometer_str">Pedometer</string>
@@ -16,5 +16,8 @@
     <string name="rss_msg_str">Please install Remote Sensor Service first. After that update / reinstall your application.</string>
     <string name="permission_msg_str">There is no permission to access the Remote Sensor Service. Please update / reinstall your application.</string>
     <string name="rss_permission_msg_str">There is no permission to access the Gear Manager or Gear Fit Manager. Please update/reinstall the Remote Sensor Service.</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

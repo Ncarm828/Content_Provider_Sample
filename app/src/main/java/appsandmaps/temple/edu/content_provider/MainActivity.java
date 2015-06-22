@@ -1,9 +1,7 @@
 package appsandmaps.temple.edu.content_provider;
 
 import android.app.Activity;
-import android.app.AlarmManager;
 import android.app.AlertDialog;
-import android.app.PendingIntent;
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.ContentValues;
@@ -16,11 +14,8 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.SystemClock;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,7 +30,6 @@ import com.samsung.android.sdk.remotesensor.SrsRemoteSensor;
 import com.samsung.android.sdk.remotesensor.Srs;
 
 
-import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -45,9 +39,9 @@ import android.content.pm.PackageInfo;
 
 //public class MainActivity extends ActionBarActivity {
 
-    public class MainActivity extends Activity implements EventListener  {
+    public class MainActivity extends Activity implements EventListener {
 
-
+        //Global Methods for MainActvity
         static SrsRemoteSensorManager mServiceManager = null;
         List<SrsRemoteSensor> pedoSensorList;
         Srs remoteSensor = null;
@@ -55,10 +49,10 @@ import android.content.pm.PackageInfo;
         static String Steps = "0";
 
 
-        private static final String 		    GEAR_PACKAGE_NAME = "com.samsung.accessory";
-        private static final String				GEAR_FIT_PACKAGE_NAME = "com.samsung.android.wms";
-        private static final String				REMOTESENSOR_PACKAGE_NAME = "com.samsung.android.sdk.remotesensor";
-        private boolean					        mBroadcastState = false;
+        private static final String GEAR_PACKAGE_NAME = "com.samsung.accessory";
+        private static final String GEAR_FIT_PACKAGE_NAME = "com.samsung.android.wms";
+        private static final String REMOTESENSOR_PACKAGE_NAME = "com.samsung.android.sdk.remotesensor";
+        private boolean mBroadcastState = false;
 
 
         private final static String TAG = "CustomContentProvider";
@@ -66,57 +60,44 @@ import android.content.pm.PackageInfo;
         TextView textViews;
 
 
+
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.activity_main);
 
-            StartAlarm();
-
+            //Samsung SDK library for getting a remotesensor
             remoteSensor = new Srs();
 
-            if (checkPermission ()) {
-                initializeeSRS ();
+            //checks the order of the permission and if everything is okay creates a connection with remote sensor
+            if (checkPermission()) {
+                initializeeSRS();
             }
 
+            //used to display information and progress bar
+            getStepInformation();
+
+            //sets the alarm and passes the context of main activity
             alarm.setAlarm(this);
 
+            //the manager class is passed in the remoteSensor,then you are able to control the the sensor
             mServiceManager = new SrsRemoteSensorManager(remoteSensor);
 
+            //press the button once the connections are good then it startes displaying the current steps
+            //!* reports steps every five minute by default and cannot change this yet *!
             final Button button = (Button) findViewById(R.id.button);
             button.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     getPedometerSensorInfo();
                     getPedometerEvent();
 
+
                 }
             });
-            
+
 
         }
 
-        private void StartAlarm() {
-
-        }
-
-
-        public void getPedometerSensorInfo (){
-            pedoSensorList =
-                    mServiceManager.getSensorList(SrsRemoteSensor.TYPE_PEDOMETER);
-            SrsRemoteSensor sensor;
-            sensor = pedoSensorList.get(0);
-            makeToast(sensor.toString());
-           // pedoSensorText.setText(sensor.toString());
-        }
-        public void getPedometerEvent (){
-            pedometerSensor = pedoSensorList.get(0);
-            mServiceManager.registerListener(this, pedometerSensor,SrsRemoteSensorManager.SENSOR_DELAY_NORMAL, 0);
-        }
-        public void stopPedometerEvent(View view){
-            SrsRemoteSensor sensor;
-            sensor = pedoSensorList.get(0);
-            mServiceManager.unregisterListener(this, sensor);
-        }
         @Override
         protected void onResume() {
             super.onResume();
@@ -134,9 +115,43 @@ import android.content.pm.PackageInfo;
         @Override
         protected void onDestroy() {
             super.onDestroy();
-            unregisterBroadcastReceiver ();
+            unregisterBroadcastReceiver();
+          //  stopPedometerEvent();
 
         }
+
+
+
+
+        public void getPedometerSensorInfo() {
+                pedoSensorList =
+                        mServiceManager.getSensorList(SrsRemoteSensor.TYPE_PEDOMETER);
+            if (pedoSensorList != null){
+                SrsRemoteSensor sensor;
+                sensor = pedoSensorList.get(0);
+                makeToast(sensor.toString());
+                // pedoSensorText.setText(sensor.toString());
+            }else{
+                makeToast("Sensor is NULL Please Wait....");
+            }
+        }
+
+        public void getPedometerEvent() {
+                if (pedoSensorList != null){
+
+                pedometerSensor = pedoSensorList.get(0);
+            mServiceManager.registerListener(this, pedometerSensor, SrsRemoteSensorManager.SENSOR_DELAY_NORMAL, 0);
+            }else{
+                makeToast("Sensor is NULL Please Wait....");
+            }
+        }
+
+        public void stopPedometerEvent() {
+            SrsRemoteSensor sensor;
+            sensor = pedoSensorList.get(0);
+            mServiceManager.unregisterListener(this, sensor);
+        }
+
 
         @Override
         public void onAccuracyChanged(SrsRemoteSensor srsRemoteSensor, int i) {
@@ -151,14 +166,14 @@ import android.content.pm.PackageInfo;
                     if (srsRemoteSensorEvent.sensor.getType() == SrsRemoteSensor.TYPE_PEDOMETER) {
 //                        pedoValueText.setText("Step Count : (" +
 //                                Float.toString(srsRemoteSensorEvent.values[0]) + ")");
-                        Log.d("Okay we got this!!!!!!",Float.toString(srsRemoteSensorEvent.values[0]));
-                        makeToast(Float.toString(srsRemoteSensorEvent.values[0]));
+                       // makeToast(Float.toString(srsRemoteSensorEvent.values[0]));
 
-                       //May need to delete
+                        //May need to delete
                         Steps = Float.toString(srsRemoteSensorEvent.values[0]);
 
-                        updateNote("1");
-                        getStepInformation();
+                        updateInformation("1");
+                        textViews = (TextView) findViewById(R.id.textView);
+                        textViews.setText(Steps);
 
                     }
                 }
@@ -171,24 +186,17 @@ import android.content.pm.PackageInfo;
         }
 
 
-
-
-
-
-
-
         void getStepInformation() {
             Cursor cur = getContentResolver().query(ContractClass.CONTENT_URI,
                     null, null, null, null);
 
             if (cur.getCount() > 0) {
-                Log.i(TAG, "Showing values.....");
                 while (cur.moveToNext()) {
                     String Id = cur.getString(cur.getColumnIndex(ContractClass.FitNessTable.ID));
                     String title = cur.getString(cur.getColumnIndex(ContractClass.FitNessTable.STEPS));
                     String Steps = cur.getString(cur.getColumnIndex(ContractClass.FitNessTable.EXPERIENCE));
-                    System.out.println("Id = " + Id + ", Note Title : " + title + ", Steps :" + Steps);
-                    textViews =(TextView) findViewById(R.id.textView);
+                    System.out.println("Id = " + Id + ", Steps : " + title + ", Experience :" + Steps);
+                    textViews = (TextView) findViewById(R.id.textView);
                     textViews.setText(title);
                     circlebar(Steps);
 
@@ -196,8 +204,7 @@ import android.content.pm.PackageInfo;
 
 
             } else {
-                Log.i(TAG, "No Notes added");
-                makeToast("No Notes added");
+                makeToast("Nothing added");
             }
 
 
@@ -207,7 +214,8 @@ import android.content.pm.PackageInfo;
             Toast.makeText(this, text, Toast.LENGTH_LONG).show();
         }
 
-        void circlebar(final String steps){
+
+        void circlebar(final String steps) {
 
             final TextView tv;
             final ProgressBar pBar;
@@ -217,7 +225,7 @@ import android.content.pm.PackageInfo;
             tv = (TextView) findViewById(R.id.textView1);
             pBar = (ProgressBar) findViewById(R.id.progressBar1);
 
-            final int percent = ((Integer.parseInt(steps)*100)/50000);
+            final int percent = ((Integer.parseInt(steps) * 100) / 50000);
 
             new Thread(new Runnable() {
 
@@ -250,122 +258,119 @@ import android.content.pm.PackageInfo;
         }
 
 
-
-        void updateNote(String str_id) {
+        void updateInformation(String str_id) {
             try {
                 int id = Integer.parseInt(str_id);
-                Log.i(TAG, "Updating with id = " + id);
                 ContentValues values = new ContentValues();
                 values.put(ContractClass.FitNessTable.STEPS, Steps);
-              //  values.put(ContractClass.FitNessTable.EXPERIENCE, content.getText().toString());
+                //  values.put(ContractClass.FitNessTable.EXPERIENCE, content.getText().toString());
                 getContentResolver().update(ContractClass.CONTENT_URI, values,
                         ContractClass.FitNessTable.ID + " = " + id, null);
-                makeToast("Note Updated");
             } catch (Exception e) {
                 e.printStackTrace();
             }
         }
 
-    private boolean initializeeSRS () {
-        boolean 	srsInitState = false;
+        private boolean initializeeSRS() {
+            boolean srsInitState = false;
 
-        try {
-            /**
-             * initialize() initialize Remote Sensor package. This needs to be called first.
-             * If the device does not support Remote Sensor, SsdkUnsupportedException is thrown.
-             */
-            remoteSensor.initialize (this.getApplicationContext());
+            try {
+                /**
+                 * initialize() initialize Remote Sensor package. This needs to be called first.
+                 * If the device does not support Remote Sensor, SsdkUnsupportedException is thrown.
+                 */
+                remoteSensor.initialize(this.getApplicationContext());
 
-            srsInitState = true;
+                srsInitState = true;
 
-        } catch (SsdkUnsupportedException e) {
-            srsInitState = false;
+            } catch (SsdkUnsupportedException e) {
+                srsInitState = false;
 
-            switch (e.getType ()) {
-                case SsdkUnsupportedException.LIBRARY_NOT_INSTALLED:
-                    registerBroadcastReceiver ();
+                switch (e.getType()) {
+                    case SsdkUnsupportedException.LIBRARY_NOT_INSTALLED:
+                        registerBroadcastReceiver();
 
-                    try {
-                        if ((remoteSensor.isFeatureEnabled (Srs.TYPE_GEAR_MANAGER) == false) && (remoteSensor.isFeatureEnabled (Srs.TYPE_GEAR_FIT_MANAGER) == false)) {
-                            Toast.makeText (this, "Install Gear Manager or Gear Fit Manager package", Toast.LENGTH_SHORT).show();
-                            invokeInstallOption (R.string.manager_msg_str, null);
-                            break;
+                        try {
+                            if ((remoteSensor.isFeatureEnabled(Srs.TYPE_GEAR_MANAGER) == false) && (remoteSensor.isFeatureEnabled(Srs.TYPE_GEAR_FIT_MANAGER) == false)) {
+                                Toast.makeText(this, "Install Gear Manager or Gear Fit Manager package", Toast.LENGTH_SHORT).show();
+                                invokeInstallOption(R.string.manager_msg_str, null);
+                                break;
+                            }
+
+                            if (remoteSensor.isFeatureEnabled(Srs.TYPE_REMOTE_SENSOR_SERVICE) == false) {
+                                Toast.makeText(this, "Install Remote Sensor Service package", Toast.LENGTH_SHORT).show();
+                                invokeInstallOption(R.string.rss_msg_str, null);
+                            }
+
+                        } catch (RuntimeException eRun) {
+                            Toast.makeText(this, "RuntimeException = " + eRun.getMessage(), Toast.LENGTH_SHORT).show();
                         }
 
-                        if (remoteSensor.isFeatureEnabled (Srs.TYPE_REMOTE_SENSOR_SERVICE) == false) {
-                            Toast.makeText (this, "Install Remote Sensor Service package", Toast.LENGTH_SHORT).show();
-                            invokeInstallOption (R.string.rss_msg_str, null);
-                        }
+                        break;
 
-                    } catch (RuntimeException eRun) {
-                        Toast.makeText (this, "RuntimeException = " + eRun.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
+                    case SsdkUnsupportedException.LIBRARY_UPDATE_IS_REQUIRED:
+                        Toast.makeText(this, "Package update is required", Toast.LENGTH_SHORT).show();
+                        break;
 
-                    break;
+                    default:
+                        Toast.makeText(this, "SsdkUnsupportedException = " + e.getType(), Toast.LENGTH_SHORT).show();
+                        break;
+                }
+            } catch (IllegalArgumentException e) {
+                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            } catch (SecurityException e) {
+                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
 
-                case SsdkUnsupportedException.LIBRARY_UPDATE_IS_REQUIRED:
-                    Toast.makeText (this, "Package update is required", Toast.LENGTH_SHORT).show();
-                    break;
-
-                default:
-                    Toast.makeText (this, "SsdkUnsupportedException = " + e.getType (), Toast.LENGTH_SHORT).show();
-                    break;
+                invokeInstallOption(-1, e.getMessage());
             }
-        } catch (IllegalArgumentException e) {
-            Toast.makeText (this, e.getMessage(), Toast.LENGTH_SHORT).show();
-        } catch (SecurityException e) {
-            Toast.makeText (this, e.getMessage(), Toast.LENGTH_SHORT).show();
 
-            invokeInstallOption (-1, e.getMessage());
+            return srsInitState;
         }
 
-        return srsInitState;
-    }
-
-        private void registerBroadcastReceiver () {
+        private void registerBroadcastReceiver() {
             mBroadcastState = true;
 
-            IntentFilter filter = new IntentFilter ();
+            IntentFilter filter = new IntentFilter();
 
-            filter.addAction (Intent.ACTION_PACKAGE_ADDED);
+            filter.addAction(Intent.ACTION_PACKAGE_ADDED);
             filter.addDataScheme("package");
 
-            this.registerReceiver (btReceiver, filter);
+            this.registerReceiver(btReceiver, filter);
         }
 
-        private void unregisterBroadcastReceiver () {
+        private void unregisterBroadcastReceiver() {
 
             if ((btReceiver != null) && (mBroadcastState)) {
-                this.unregisterReceiver (btReceiver);
+                this.unregisterReceiver(btReceiver);
             }
 
             mBroadcastState = false;
         }
 
-        BroadcastReceiver btReceiver = new BroadcastReceiver () {
+        BroadcastReceiver btReceiver = new BroadcastReceiver() {
 
             @Override
-            public void onReceive (Context context, Intent intent) {
+            public void onReceive(Context context, Intent intent) {
 
                 if (intent == null) {
                     return;
                 }
 
-                String action = intent.getAction ();
+                String action = intent.getAction();
 
                 if (action == null) {
                     return;
                 }
 
-                if (action.equals (Intent.ACTION_PACKAGE_ADDED)) {
-                    String	appName = intent.getDataString ();
+                if (action.equals(Intent.ACTION_PACKAGE_ADDED)) {
+                    String appName = intent.getDataString();
 
                     if (appName != null) {
-                        if (appName.toLowerCase (Locale.ENGLISH).contains (GEAR_FIT_PACKAGE_NAME.toLowerCase (Locale.ENGLISH)) ) {
-                            invokeInstallOption (R.string.rss_msg_str, null);
-                        } else if (appName.toLowerCase (Locale.ENGLISH).contains (REMOTESENSOR_PACKAGE_NAME.toLowerCase (Locale.ENGLISH)) ) {
-                            if (checkPermission ()) {
-                                initializeeSRS ();
+                        if (appName.toLowerCase(Locale.ENGLISH).contains(GEAR_FIT_PACKAGE_NAME.toLowerCase(Locale.ENGLISH))) {
+                            invokeInstallOption(R.string.rss_msg_str, null);
+                        } else if (appName.toLowerCase(Locale.ENGLISH).contains(REMOTESENSOR_PACKAGE_NAME.toLowerCase(Locale.ENGLISH))) {
+                            if (checkPermission()) {
+                                initializeeSRS();
                             }
                         }
                     }
@@ -373,15 +378,15 @@ import android.content.pm.PackageInfo;
             }
         };
 
-        private void invokeInstallOption (final int msgID, String msg) {
+        private void invokeInstallOption(final int msgID, String msg) {
 
-            DialogInterface.OnClickListener	msgClick = new DialogInterface.OnClickListener () {
+            DialogInterface.OnClickListener msgClick = new DialogInterface.OnClickListener() {
                 @Override
-                public void onClick (DialogInterface dialog, int selButton) {
+                public void onClick(DialogInterface dialog, int selButton) {
                     switch (selButton) {
                         case DialogInterface.BUTTON_POSITIVE:
 
-                            Intent	intent = null;
+                            Intent intent = null;
 
                             if ((msgID == R.string.rss_msg_str) || (msgID == R.string.rss_permission_msg_str)) {
                                 intent = new Intent(Intent.ACTION_VIEW, Uri.parse("samsungapps://ProductDetail/" + "com.samsung.android.sdk.remotesensor"));
@@ -391,14 +396,14 @@ import android.content.pm.PackageInfo;
                                 Uri packageURI = Uri.parse("package:" + getPackageName());
 
                                 intent = new Intent(Intent.ACTION_DELETE, packageURI);
-                                intent.setFlags (Intent.FLAG_ACTIVITY_NEW_TASK);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             } else if (msgID == -1) {
-                                finish ();
+                                finish();
                             }
 
                             if (intent != null) {
                                 try {
-                                    startActivity (intent);
+                                    startActivity(intent);
                                 } catch (ActivityNotFoundException eRun) {
                                 }
                             }
@@ -411,46 +416,46 @@ import android.content.pm.PackageInfo;
                 }
             };
 
-            AlertDialog.Builder	message = new AlertDialog.Builder (this, AlertDialog.THEME_HOLO_DARK);
+            AlertDialog.Builder message = new AlertDialog.Builder(this, AlertDialog.THEME_HOLO_DARK);
 
             if (msgID != -1) {
-                message.setMessage (msgID);
+                message.setMessage(msgID);
             }
 
             if (msg != null) {
-                message.setMessage (msg);
+                message.setMessage(msg);
             }
 
-            message.setPositiveButton (R.string.ok_str, msgClick);
-            message.setCancelable (false);
+            message.setPositiveButton(R.string.ok_str, msgClick);
+            message.setCancelable(false);
 
-            message.show ();
+            message.show();
 
         }
 
-        private boolean checkPermission () {
-            PackageManager	packageManager = this.getPackageManager();
-            boolean			mIsSapInstalled = false;
-            boolean			mIsWingtipInstalled = false;
-            boolean			mIsSapPermissionGranted = false;
-            boolean			mIsWingtipPermissionGranted = false;
+        private boolean checkPermission() {
+            PackageManager packageManager = this.getPackageManager();
+            boolean mIsSapInstalled = false;
+            boolean mIsWingtipInstalled = false;
+            boolean mIsSapPermissionGranted = false;
+            boolean mIsWingtipPermissionGranted = false;
 
             if (packageManager == null) {
                 return false;
             }
 
 		/* If the Remote Sensor service is not installed, return */
-            if ((checkPackage (packageManager, REMOTESENSOR_PACKAGE_NAME) == false) ||
-                    ((checkPackage (packageManager, GEAR_PACKAGE_NAME) == false) &&
-                            (checkPackage (packageManager, GEAR_FIT_PACKAGE_NAME) == false))){
+            if ((checkPackage(packageManager, REMOTESENSOR_PACKAGE_NAME) == false) ||
+                    ((checkPackage(packageManager, GEAR_PACKAGE_NAME) == false) &&
+                            (checkPackage(packageManager, GEAR_FIT_PACKAGE_NAME) == false))) {
                 return true;
             }
 
 		/* If the Remote Sensor service is not having permission to access Gear Manger, launch the Samsung App Store to download Remote Sensor Service*/
-            if (checkPackage (packageManager, GEAR_PACKAGE_NAME) == true) {
+            if (checkPackage(packageManager, GEAR_PACKAGE_NAME) == true) {
                 mIsSapInstalled = true;
 
-                if (packageManager.checkPermission (
+                if (packageManager.checkPermission(
                         "com.samsung.accessory.permission.ACCESSORY_FRAMEWORK",
                         "com.samsung.android.sdk.remotesensor") == PackageManager.PERMISSION_GRANTED) {
 
@@ -459,10 +464,10 @@ import android.content.pm.PackageInfo;
             }
 
 		/* If the Remote Sensor service is not having permission to access Gear Fit Manger, launch the Samsung App Store to download Remote Sensor Service*/
-            if (checkPackage (packageManager, GEAR_FIT_PACKAGE_NAME) == true) {
+            if (checkPackage(packageManager, GEAR_FIT_PACKAGE_NAME) == true) {
                 mIsWingtipInstalled = true;
 
-                if (packageManager.checkPermission (
+                if (packageManager.checkPermission(
                         "com.samsung.android.sdk.permission.SESSION_MANAGER_SERVICE",
                         "com.samsung.android.sdk.remotesensor") == PackageManager.PERMISSION_GRANTED) {
 
@@ -473,17 +478,17 @@ import android.content.pm.PackageInfo;
             if (((mIsWingtipInstalled == true) && (mIsWingtipPermissionGranted == false))
                     || ((mIsSapInstalled == true) && (mIsSapPermissionGranted == false))) {
 
-                invokeInstallOption (R.string.rss_permission_msg_str, null);
+                invokeInstallOption(R.string.rss_permission_msg_str, null);
 
                 return false;
             }
 
 		/* If the Remote Sensor application is not having permission to access Remote Sensor Service, launch the Samsung App Store to download Remote Sensor Application*/
-            if (packageManager.checkPermission (
+            if (packageManager.checkPermission(
                     "com.samsung.android.sdk.permission.REMOTE_SENSOR_SERVICE",
                     "appsandmaps.temple.edu.content_provider") != PackageManager.PERMISSION_GRANTED) {
 
-                invokeInstallOption (R.string.permission_msg_str, null);
+                invokeInstallOption(R.string.permission_msg_str, null);
 
                 return false;
             }
@@ -492,9 +497,9 @@ import android.content.pm.PackageInfo;
         }
 
 
-        private boolean checkPackage (PackageManager packageManager, String szPackageName) {
-            PackageInfo	packageInfo = null;
-            boolean		bReturn = false;
+        private boolean checkPackage(PackageManager packageManager, String szPackageName) {
+            PackageInfo packageInfo = null;
+            boolean bReturn = false;
 
             try {
                 packageInfo = packageManager.getPackageInfo(szPackageName, 0);
@@ -511,6 +516,8 @@ import android.content.pm.PackageInfo;
 
             return bReturn;
         }
+
+
 
     }
 
