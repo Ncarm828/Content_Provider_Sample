@@ -13,7 +13,7 @@ import android.widget.TextView;
 public class LevelFragment extends Fragment {
     TextView tv;
     ProgressBar pBar;
-    int pStatus = 0;
+    int pStatus = 2;
     int endLevel =0 ;
     private Handler handler = new Handler();
     public LevelFragment() {

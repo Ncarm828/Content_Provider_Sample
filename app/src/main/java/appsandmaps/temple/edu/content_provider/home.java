@@ -53,7 +53,7 @@ public class home extends Activity {
             }
         });
 
-        btnNick = (Button)findViewById(R.id.button2);
+       /* btnNick = (Button)findViewById(R.id.button2);
 
        btnNick.setOnClickListener(new View.OnClickListener() {
            @Override
@@ -61,7 +61,7 @@ public class home extends Activity {
                Intent i = new Intent(home.this,MainActivity.class);
                startActivity(i);
            }
-       });
+       });*/
     }
 }
 

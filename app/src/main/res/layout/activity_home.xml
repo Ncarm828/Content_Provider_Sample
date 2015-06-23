@@ -131,14 +131,29 @@
         android:layout_toLeftOf="@+id/textView3"
         android:layout_toStartOf="@+id/textView3" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Steps: "
+        android:id="@+id/textView7"
+        android:layout_alignBaseline="@+id/textView"
+        android:layout_alignParentStart="true" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="...."
+        android:id="@+id/textView8"
+        android:layout_toRightOf="@id/textView7" />
+
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="NICK&apos;s Part"
-        android:id="@+id/button2"
-        android:layout_above="@+id/textView6"
-        android:layout_alignStart="@+id/textView6" />
-
+        android:text="Start"
+        android:id="@+id/buttonSTR"
+        android:layout_centerVertical="true"
+        android:layout_alignStart="@+id/textView2" />
 
 </RelativeLayout>
