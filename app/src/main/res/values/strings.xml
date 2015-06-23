@@ -16,5 +16,13 @@
     <string name="rss_msg_str">Please install Remote Sensor Service first. After that update / reinstall your application.</string>
     <string name="permission_msg_str">There is no permission to access the Remote Sensor Service. Please update / reinstall your application.</string>
     <string name="rss_permission_msg_str">There is no permission to access the Gear Manager or Gear Fit Manager. Please update/reinstall the Remote Sensor Service.</string>
+    <string name="title_activity_calendar">CalendarActivity</string>
+
+
+    <string name="calendar_event">Calendar Event</string>
+    <string name="title_activity_home">home</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
