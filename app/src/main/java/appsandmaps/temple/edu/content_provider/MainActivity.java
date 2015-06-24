@@ -2,6 +2,12 @@ package appsandmaps.temple.edu.content_provider;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+<<<<<<< HEAD
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.app.PendingIntent;
+=======
+>>>>>>> master
 import android.content.ActivityNotFoundException;
 import android.content.BroadcastReceiver;
 import android.content.ContentValues;
@@ -60,11 +66,23 @@ import android.content.pm.PackageInfo;
         TextView textViews;
 
 
+<<<<<<< HEAD
+        EditText etExp, etLevel;
+        Button btnExp, btnLevel, btnStart;
+
+        Float StepHolder = Float.valueOf(0);
+
+=======
+>>>>>>> master
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
+<<<<<<< HEAD
+            setContentView(R.layout.activity_home);
+=======
             setContentView(R.layout.activity_main);
+>>>>>>> master
 
             //Samsung SDK library for getting a remotesensor
             remoteSensor = new Srs();
@@ -85,8 +103,14 @@ import android.content.pm.PackageInfo;
 
             //press the button once the connections are good then it startes displaying the current steps
             //!* reports steps every five minute by default and cannot change this yet *!
+<<<<<<< HEAD
+            btnStart = (Button) findViewById(R.id.buttonSTR);
+
+            btnStart.setOnClickListener(new View.OnClickListener() {
+=======
             final Button button = (Button) findViewById(R.id.button);
             button.setOnClickListener(new View.OnClickListener() {
+>>>>>>> master
                 public void onClick(View v) {
                     getPedometerSensorInfo();
                     getPedometerEvent();
@@ -94,10 +118,74 @@ import android.content.pm.PackageInfo;
 
                 }
             });
+<<<<<<< HEAD
+
+            etExp = (EditText) findViewById(R.id.etExp);
+            etLevel = (EditText) findViewById(R.id.etLevel);
+            btnExp = (Button) findViewById(R.id.btnExp);
+            btnLevel = (Button) findViewById(R.id.btnLevel);
+
+            //Setting Button click action which loads a fragment by passing value of number as a
+            //parameter in one Constructor.
+
+       /*     btnExp.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    ExperienceFragment expFragment = new ExperienceFragment(Integer.parseInt(etExp.getText().toString()));
+                    fragmentTransaction.replace(R.id.fragmentExp, expFragment);
+                    fragmentTransaction.commit();
+                }
+            });*/
+
+            //Setting Button click action which loads a fragment by passing value of number as a
+            //parameter in one Constructor.
+
+
+                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                 //   LevelFragment levelFragment = new LevelFragment(Integer.parseInt(etLevel.getText().toString()));
+            LevelFragment levelFragment = new LevelFragment(2);
+                    fragmentTransaction.replace(R.id.fragmenLevel, levelFragment);
+                    fragmentTransaction.commit();
+=======
+>>>>>>> master
 
 
         }
 
+<<<<<<< HEAD
+
+
+        public void getPedometerSensorInfo (){
+            pedoSensorList =
+                    mServiceManager.getSensorList(SrsRemoteSensor.TYPE_PEDOMETER);
+            if (pedoSensorList != null) {
+                SrsRemoteSensor sensor;
+                sensor = pedoSensorList.get(0);
+                makeToast(sensor.toString());
+                // pedoSensorText.setText(sensor.toString());
+
+            }else{
+            makeToast("Sensor is NULL Please Wait....");
+         }
+        }
+        public void getPedometerEvent () {
+            if (pedoSensorList != null) {
+                pedometerSensor = pedoSensorList.get(0);
+                mServiceManager.registerListener(this, pedometerSensor, SrsRemoteSensorManager.SENSOR_DELAY_NORMAL, 0);
+            }else{
+                makeToast("Sensor is NULL Please Wait....");
+            }
+        }
+        public void stopPedometerEvent(View view){
+            SrsRemoteSensor sensor;
+            sensor = pedoSensorList.get(0);
+            mServiceManager.unregisterListener(this, sensor);
+        }
+=======
+>>>>>>> master
         @Override
         protected void onResume() {
             super.onResume();
@@ -166,14 +254,28 @@ import android.content.pm.PackageInfo;
                     if (srsRemoteSensorEvent.sensor.getType() == SrsRemoteSensor.TYPE_PEDOMETER) {
 //                        pedoValueText.setText("Step Count : (" +
 //                                Float.toString(srsRemoteSensorEvent.values[0]) + ")");
+<<<<<<< HEAD
+                      //  makeToast(Float.toString(srsRemoteSensorEvent.values[0]));
+=======
                        // makeToast(Float.toString(srsRemoteSensorEvent.values[0]));
+>>>>>>> master
 
                         //May need to delete
                         Steps = Float.toString(srsRemoteSensorEvent.values[0]);
 
+<<<<<<< HEAD
+                     //   updateNote("1");
+
+                        updateInformation("1");
+                        textViews = (TextView) findViewById(R.id.textView8);
+                        textViews.setText(Steps);
+
+
+=======
                         updateInformation("1");
                         textViews = (TextView) findViewById(R.id.textView);
                         textViews.setText(Steps);
+>>>>>>> master
 
                     }
                 }
@@ -195,10 +297,24 @@ import android.content.pm.PackageInfo;
                     String Id = cur.getString(cur.getColumnIndex(ContractClass.FitNessTable.ID));
                     String title = cur.getString(cur.getColumnIndex(ContractClass.FitNessTable.STEPS));
                     String Steps = cur.getString(cur.getColumnIndex(ContractClass.FitNessTable.EXPERIENCE));
+<<<<<<< HEAD
+                    System.out.println("Id = " + Id + ", Note Title : " + title + ", Steps :" + Steps);
+                    textViews = (TextView) findViewById(R.id.textView8);
+=======
                     System.out.println("Id = " + Id + ", Steps : " + title + ", Experience :" + Steps);
                     textViews = (TextView) findViewById(R.id.textView);
+>>>>>>> master
                     textViews.setText(title);
-                    circlebar(Steps);
+
+                   StepHolder = (Float.valueOf(title)/1000)*100;
+                   // makeToast(StepHolder.toString());
+
+                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    ExperienceFragment expFragment = new ExperienceFragment(Math.round(StepHolder));
+                    fragmentTransaction.replace(R.id.fragmentExp, expFragment);
+                    fragmentTransaction.commit();
+
 
                 }
 
@@ -214,8 +330,12 @@ import android.content.pm.PackageInfo;
             Toast.makeText(this, text, Toast.LENGTH_LONG).show();
         }
 
+<<<<<<< HEAD
+    /*    void circlebar(final String steps){
+=======
 
         void circlebar(final String steps) {
+>>>>>>> master
 
             final TextView tv;
             final ProgressBar pBar;
@@ -255,8 +375,26 @@ import android.content.pm.PackageInfo;
                     }
                 }
             }).start();
-        }
+        }*/
 
+
+<<<<<<< HEAD
+
+      /*  void update(String str_id) {
+=======
+        void updateInformation(String str_id) {
+>>>>>>> master
+            try {
+                int id = Integer.parseInt(str_id);
+                ContentValues values = new ContentValues();
+                values.put(ContractClass.FitNessTable.STEPS, Steps);
+                //  values.put(ContractClass.FitNessTable.EXPERIENCE, content.getText().toString());
+                getContentResolver().update(ContractClass.CONTENT_URI, values,
+                        ContractClass.FitNessTable.ID + " = " + id, null);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }*/
 
         void updateInformation(String str_id) {
             try {

@@ -33,9 +33,13 @@ android:id="@+id/container">
         android:indeterminate="false"
         android:max="100"
         android:progress="75"
+<<<<<<< HEAD
+        android:layout_below="@+id/textView"
+=======
         android:progressDrawable="@drawable/style_circle_fill"
         android:secondaryProgress="10"
         android:layout_above="@+id/button"
+>>>>>>> master
         android:layout_centerHorizontal="true" />
 
 

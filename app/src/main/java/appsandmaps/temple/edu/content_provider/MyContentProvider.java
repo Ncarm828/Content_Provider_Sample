@@ -95,11 +95,19 @@ public class MyContentProvider extends ContentProvider implements AsyncResponse 
 
     @Override
     public boolean onCreate() {
+<<<<<<< HEAD
+      //  UpdateActivityClass GetData = new UpdateActivityClass();
+        //try {
+      //  GetData.delegate = this;
+
+     //   GetData.execute();//.wait();
+=======
        // UpdateActivityClass GetData = new UpdateActivityClass();
         //try {
       //  GetData.delegate = this;
 
       //  GetData.execute();//.wait();
+>>>>>>> master
         //} catch (InterruptedException e) {
         //    e.printStackTrace();
        // }
@@ -135,7 +143,6 @@ public class MyContentProvider extends ContentProvider implements AsyncResponse 
                 Uri notesUri = ContentUris.withAppendedId(
                         ContractClass.CONTENT_URI, rowId);
                 getContext().getContentResolver().notifyChange(notesUri, null);
-                rowExists = false;
             }
         }
     }

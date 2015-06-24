@@ -9,13 +9,39 @@
     <uses-permission android:name="com.samsung.android.sdk.permission.REMOTE_SENSOR_SERVICE" />
     <uses-permission android:name="com.samsung.android.providers.context.permission.WRITE_USE_APP_FEATURE_SURVEY" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"></uses-permission>
+<<<<<<< HEAD
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+=======
     <uses-permission android:name="android.permission.READ_CALENDAR"/>
+>>>>>>> master
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+
+
+        <provider
+            android:name=".MyContentProvider"
+            android:authorities="edu.temple.app.provider"
+            android:enabled="true"
+            android:exported="true" >
+        </provider>
+
+        <receiver android:name=".AlarmReceiver" />
+        <receiver
+            android:name=".ReBootNotif"
+            android:enabled="false" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+        <activity
+            android:name=".CalendarActivity"
+            android:label="@string/title_activity_calendar" >
+        </activity>
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name" >
@@ -25,20 +51,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
-        <provider
-            android:name=".MyContentProvider"
-            android:authorities="edu.temple.app.provider"
-            android:enabled="true"
-            android:exported="true" >
-        </provider>
-        <receiver android:name=".AlarmReceiver"></receiver>
-        <receiver android:name=".ReBootNotif"
-            android:enabled="false">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
-            </intent-filter>
-        </receiver>
     </application>
 
 </manifest>
