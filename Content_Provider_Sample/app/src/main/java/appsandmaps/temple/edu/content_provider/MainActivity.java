@@ -18,7 +18,6 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -37,11 +36,6 @@ import com.samsung.android.sdk.remotesensor.SrsRemoteSensor;
 import com.samsung.android.sdk.remotesensor.Srs;
 
 
-<<<<<<< HEAD
-import java.net.URL;
-import java.util.Calendar;
-=======
->>>>>>> master
 import java.util.List;
 import java.util.Locale;
 
@@ -107,17 +101,13 @@ import android.content.pm.PackageInfo;
             //the manager class is passed in the remoteSensor,then you are able to control the the sensor
             mServiceManager = new SrsRemoteSensorManager(remoteSensor);
 
+            //press the button once the connections are good then it startes displaying the current steps
+            //!* reports steps every five minute by default and cannot change this yet *!
 <<<<<<< HEAD
-            new HurryUpandWait().execute();
+            btnStart = (Button) findViewById(R.id.buttonSTR);
 
-            //press the button once the connections are good then it startes displaying the current steps
-            //!* reports steps every five minute by default and cannot change this yet *!
-         //   btnStart = (Button) findViewById(R.id.buttonSTR);
-
-           /* btnStart.setOnClickListener(new View.OnClickListener() {
+            btnStart.setOnClickListener(new View.OnClickListener() {
 =======
-            //press the button once the connections are good then it startes displaying the current steps
-            //!* reports steps every five minute by default and cannot change this yet *!
             final Button button = (Button) findViewById(R.id.button);
             button.setOnClickListener(new View.OnClickListener() {
 >>>>>>> master
@@ -127,8 +117,8 @@ import android.content.pm.PackageInfo;
 
 
                 }
+            });
 <<<<<<< HEAD
-            });*/
 
             etExp = (EditText) findViewById(R.id.etExp);
             etLevel = (EditText) findViewById(R.id.etLevel);
@@ -160,7 +150,6 @@ import android.content.pm.PackageInfo;
                     fragmentTransaction.replace(R.id.fragmenLevel, levelFragment);
                     fragmentTransaction.commit();
 =======
-            });
 >>>>>>> master
 
 
@@ -254,7 +243,6 @@ import android.content.pm.PackageInfo;
 
         @Override
         public void onAccuracyChanged(SrsRemoteSensor srsRemoteSensor, int i) {
-          //  makeToast("This is a new value");
 
         }
 
@@ -279,8 +267,8 @@ import android.content.pm.PackageInfo;
                      //   updateNote("1");
 
                         updateInformation("1");
-                      //  textViews = (TextView) findViewById(R.id.textView8);
-                      //  textViews.setText(Steps);
+                        textViews = (TextView) findViewById(R.id.textView8);
+                        textViews.setText(Steps);
 
 
 =======
@@ -311,10 +299,14 @@ import android.content.pm.PackageInfo;
                     String Steps = cur.getString(cur.getColumnIndex(ContractClass.FitNessTable.EXPERIENCE));
 <<<<<<< HEAD
                     System.out.println("Id = " + Id + ", Note Title : " + title + ", Steps :" + Steps);
-                 //   textViews = (TextView) findViewById(R.id.textView8);
-                 //   textViews.setText(title);
+                    textViews = (TextView) findViewById(R.id.textView8);
+=======
+                    System.out.println("Id = " + Id + ", Steps : " + title + ", Experience :" + Steps);
+                    textViews = (TextView) findViewById(R.id.textView);
+>>>>>>> master
+                    textViews.setText(title);
 
-                   StepHolder = (Float.valueOf(title)/5000)*100;
+                   StepHolder = (Float.valueOf(title)/1000)*100;
                    // makeToast(StepHolder.toString());
 
                     FragmentManager fragmentManager = getFragmentManager();
@@ -323,12 +315,6 @@ import android.content.pm.PackageInfo;
                     fragmentTransaction.replace(R.id.fragmentExp, expFragment);
                     fragmentTransaction.commit();
 
-=======
-                    System.out.println("Id = " + Id + ", Steps : " + title + ", Experience :" + Steps);
-                    textViews = (TextView) findViewById(R.id.textView);
-                    textViews.setText(title);
-                    circlebar(Steps);
->>>>>>> master
 
                 }
 
@@ -670,32 +656,6 @@ import android.content.pm.PackageInfo;
         }
 
 
-<<<<<<< HEAD
-        //thread for testing purposes not for real project, waits 10 seconds ad then fire
-        //off function for device to run
-        private class HurryUpandWait extends AsyncTask<Void, Void, Void> {
-
-
-            @Override
-            protected Void doInBackground(Void... params) {
-                try {
-                    Thread.sleep(10000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                publishProgress();
-                return null;
-            }
-
-            @Override
-            protected void onProgressUpdate(Void... values) {
-                super.onProgressUpdate(values);
-                getPedometerSensorInfo();
-                getPedometerEvent();
-            }
-        }
-=======
->>>>>>> master
 
     }
 
