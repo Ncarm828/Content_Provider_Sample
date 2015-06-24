@@ -1,6 +1,5 @@
 package appsandmaps.temple.edu.content_provider;
 
-<<<<<<< HEAD
 import android.content.Context;
 import android.database.Cursor;
 import android.provider.CalendarContract;
@@ -9,17 +8,6 @@ import java.util.Calendar;
 
 public class CalendarEvent {
 
-=======
-//package com.example.harshu195.minicalendareventlist;
-
-        import android.content.ContentResolver;
-        import android.content.Context;
-        import android.database.Cursor;
-        import android.provider.CalendarContract;
-        import java.util.Calendar;
-
-public class CalendarEvent {
->>>>>>> master
     Context context;
     String res="";
 

@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Content_Provider</string>
     <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Calendar</string>
+    <string name="action_settings">Settings</string>
 
     <string name="user_activity_str">User Activity</string>
     <string name="pedometer_str">Pedometer</string>
@@ -21,9 +21,6 @@
 
     <string name="calendar_event">Calendar Event</string>
     <string name="title_activity_home">home</string>
-
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

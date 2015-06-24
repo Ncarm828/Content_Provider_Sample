@@ -18,9 +18,9 @@ android:id="@+id/container">
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
         android:id="@+id/textView"
+        android:layout_centerHorizontal="true"
 
-        android:layout_above="@+id/progressBar1"
-        android:layout_centerHorizontal="true" />
+        android:layout_marginTop="100dp" />
 
 
 
@@ -33,13 +33,7 @@ android:id="@+id/container">
         android:indeterminate="false"
         android:max="100"
         android:progress="75"
-<<<<<<< HEAD
         android:layout_below="@+id/textView"
-=======
-        android:progressDrawable="@drawable/style_circle_fill"
-        android:secondaryProgress="10"
-        android:layout_above="@+id/button"
->>>>>>> master
         android:layout_centerHorizontal="true" />
 
 
@@ -54,7 +48,22 @@ android:id="@+id/container">
         android:layout_marginBottom="76dp"
         android:textAppearance="?android:attr/textAppearanceSmall" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/pedoSensorText"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Large Text"
+        android:id="@+id/pedoValueText"
+        android:layout_alignStart="@+id/textView1" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -62,8 +71,7 @@ android:id="@+id/container">
         android:layout_height="wrap_content"
         android:text="New Button"
         android:id="@+id/button"
-        android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/textView" />
-
+        android:layout_above="@+id/pedoSensorText"
+        android:layout_alignStart="@+id/textView1" />
 
 </RelativeLayout>

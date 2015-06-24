@@ -10,10 +10,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
-<<<<<<< HEAD
-=======
-import android.os.SystemClock;
->>>>>>> master
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.widget.Toast;
@@ -33,16 +29,9 @@ public class AlarmReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-<<<<<<< HEAD
         Cursor cur = context.getContentResolver().query(ContractClass.CONTENT_URI,
                 null, null, null, null);
 
-=======
-
-        Cursor cur = context.getContentResolver().query(ContractClass.CONTENT_URI,
-                null, null, null, null);
-
->>>>>>> master
         if (cur.getCount() > 0) {
             while (cur.moveToNext()) {
                 String title = cur.getString(cur.getColumnIndex(ContractClass.FitNessTable.STEPS));
@@ -53,7 +42,6 @@ public class AlarmReceiver extends BroadcastReceiver {
 
                     if(calendarEvent.isSlotAvailable()) {
 
-<<<<<<< HEAD
                         Calendar c = Calendar.getInstance();
                         SimpleDateFormat sdf = new SimpleDateFormat("HH");
                         String Time = sdf.format(c.getTime());
@@ -78,32 +66,6 @@ public class AlarmReceiver extends BroadcastReceiver {
 
                         }
                     }
-=======
-                         Calendar c = Calendar.getInstance();
-                         SimpleDateFormat sdf = new SimpleDateFormat("HH");
-                         String Time = sdf.format(c.getTime());
-                         Log.d("This is the time: ", Time);
-                         if (Integer.valueOf(Time) >= 8 && Integer.valueOf(Time) <= 21) {
-
-
-                             NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(context)
-                                     .setSmallIcon(R.mipmap.ic_launcher)
-                                     .setContentTitle("Workout Alert")
-                                     .setContentText("You are free for the next hour, take a walk");
-                             Intent resultIntent = new Intent(context, MainActivity.class);
-                             TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
-                             stackBuilder.addParentStack(MainActivity.class);
-                             stackBuilder.addNextIntent(resultIntent);
-                             PendingIntent resultPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-                             mBuilder.setContentIntent(resultPendingIntent);
-                             int mNotificationId = 001;
-                             NotificationManager mNotifyMgr = (NotificationManager) context.getSystemService(context.NOTIFICATION_SERVICE);
-                             mNotifyMgr.notify(mNotificationId, mBuilder.build());
-
-
-                         }
-                     }
->>>>>>> master
                 }else{
                     Toast.makeText(context, "I'm not running", Toast.LENGTH_LONG).show();
 
@@ -122,16 +84,15 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     }
     public void setAlarm(Context context) {
-
-
-
-            alarmMgr = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-            Intent intent = new Intent(context, AlarmReceiver.class);
-            alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
-            alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                    AlarmManager.INTERVAL_FIFTEEN_MINUTES,
-                    AlarmManager.INTERVAL_FIFTEEN_MINUTES, alarmIntent);
-
+        alarmMgr = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        Intent intent = new Intent(context, AlarmReceiver.class);
+        alarmIntent = PendingIntent.getBroadcast(context, 0, intent, 0);
+          alarmMgr.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                  AlarmManager.INTERVAL_HALF_HOUR,
+                 AlarmManager.INTERVAL_HALF_HOUR, alarmIntent);
+       // alarmMgr.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+       //         SystemClock.elapsedRealtime() +
+       //                 60 * 1000 , alarmIntent);
 
     }
 }
