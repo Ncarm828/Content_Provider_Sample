@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.util.Random;
+
 
 public class home extends Activity {
 
@@ -20,46 +22,37 @@ public class home extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-        etExp = (EditText) findViewById(R.id.etExp);
-        etLevel = (EditText) findViewById(R.id.etLevel);
-        btnExp = (Button) findViewById(R.id.btnExp);
-        btnLevel = (Button) findViewById(R.id.btnLevel);
+        //fetching Random Value form these variables
 
-        //Setting Button click action which loads a fragment by passing value of number as a
-        //parameter in one Constructor.
+        Random r = new Random();
+        final int level = r.nextInt(10 - 3) + 3;
+        final int exp = r.nextInt(95-35) + 35;
 
-        btnExp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                ExperienceFragment expFragment = new ExperienceFragment(Integer.parseInt(etExp.getText().toString()));
-                fragmentTransaction.replace(R.id.fragmentExp, expFragment);
-                fragmentTransaction.commit();
-            }
-        });
+        //setting the fragments to show these values
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        ExperienceFragment expFragment = new ExperienceFragment(exp);
+        fragmentTransaction.replace(R.id.fragmentExp, expFragment);
+        fragmentTransaction.commit();
 
-        //Setting Button click action which loads a fragment by passing value of number as a
-        //parameter in one Constructor.
 
-        btnLevel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                LevelFragment levelFragment = new LevelFragment(Integer.parseInt(etLevel.getText().toString()));
-                fragmentTransaction.replace(R.id.fragmenLevel, levelFragment);
-                fragmentTransaction.commit();
-            }
-        });
 
+        //setting the fragments to show these values
+        FragmentManager fragmentManagerLevel = getFragmentManager();
+        FragmentTransaction fragmentTransactionLevel = fragmentManager.beginTransaction();
+        LevelFragment levelFragment = new LevelFragment(level);
+        fragmentTransactionLevel.replace(R.id.fragmenLevel, levelFragment);
+        fragmentTransactionLevel.commit();
+
+
+
+        //Calling Nick's mainActivity
         btnNick = (Button)findViewById(R.id.button2);
-
-       btnNick.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               Intent i = new Intent(home.this,MainActivity.class);
-               startActivity(i);
+        btnNick.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(home.this, MainActivity.class);
+                startActivity(i);
            }
        });
     }
