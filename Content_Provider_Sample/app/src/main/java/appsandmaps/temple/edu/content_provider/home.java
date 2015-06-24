@@ -20,15 +20,15 @@ public class home extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
-     //   etExp = (EditText) findViewById(R.id.etExp);
-     //   etLevel = (EditText) findViewById(R.id.etLevel);
-     //   btnExp = (Button) findViewById(R.id.btnExp);
-     //   btnLevel = (Button) findViewById(R.id.btnLevel);
+        etExp = (EditText) findViewById(R.id.etExp);
+        etLevel = (EditText) findViewById(R.id.etLevel);
+        btnExp = (Button) findViewById(R.id.btnExp);
+        btnLevel = (Button) findViewById(R.id.btnLevel);
 
         //Setting Button click action which loads a fragment by passing value of number as a
         //parameter in one Constructor.
 
-     /*   btnExp.setOnClickListener(new View.OnClickListener() {
+        btnExp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentManager fragmentManager = getFragmentManager();
@@ -37,12 +37,12 @@ public class home extends Activity {
                 fragmentTransaction.replace(R.id.fragmentExp, expFragment);
                 fragmentTransaction.commit();
             }
-        });*/
+        });
 
         //Setting Button click action which loads a fragment by passing value of number as a
         //parameter in one Constructor.
 
-     /*   btnLevel.setOnClickListener(new View.OnClickListener() {
+        btnLevel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentManager fragmentManager = getFragmentManager();

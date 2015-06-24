@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">Content_Provider</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Calendar</string>
+
+    <string name="user_activity_str">User Activity</string>
+    <string name="pedometer_str">Pedometer</string>
+    <string name="wearing_str">Wearing State</string>
+    <string name="value_str">Value</string>
+    <string name="stop_str">Stop</string>
+
+
+
+    <string name="ok_str">Ok</string>
+    <string name="manager_msg_str">Please install Gear Manager or Gear Fit Manager and Remote Sensor Service first. After that update / reinstall your application.</string>
+    <string name="rss_msg_str">Please install Remote Sensor Service first. After that update / reinstall your application.</string>
+    <string name="permission_msg_str">There is no permission to access the Remote Sensor Service. Please update / reinstall your application.</string>
+    <string name="rss_permission_msg_str">There is no permission to access the Gear Manager or Gear Fit Manager. Please update/reinstall the Remote Sensor Service.</string>
+    <string name="title_activity_calendar">CalendarActivity</string>
+
+
+    <string name="calendar_event">Calendar Event</string>
+    <string name="title_activity_home">home</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+</resources>
