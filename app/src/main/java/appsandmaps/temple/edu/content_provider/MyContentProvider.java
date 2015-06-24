@@ -15,25 +15,6 @@ import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
 
-    /*
-        Simple Content Provider that connects to a local database and holds names, id and steps
-         !! NOT finals content provider. Final will ont have a local database instead wil connect
-         with the server information.
-         For testing purpose the local database is create when in OnCreate and then calls a helper class
-         within the MyContentProvider
-         Content Provider information:
-
-         - Outside applications will only have Access to the Contract class so there is an abstract
-         layer between the sever and the 3rd party application.
-         - The App that this Content provider is implemented in will have a UI and also be connected to the
-         server
-         - This Content Provider will Not be able to delete data nor insert data. this is a read only
-         provider
-         - Writing new information to the server datbase will be the job
-            1. The after the connection of the wearable device
-            2. adding or deleting user from database
-
-    */
 
 public class MyContentProvider extends ContentProvider implements AsyncResponse {
 
@@ -114,11 +95,19 @@ public class MyContentProvider extends ContentProvider implements AsyncResponse 
 
     @Override
     public boolean onCreate() {
+<<<<<<< HEAD
       //  UpdateActivityClass GetData = new UpdateActivityClass();
         //try {
       //  GetData.delegate = this;
 
      //   GetData.execute();//.wait();
+=======
+       // UpdateActivityClass GetData = new UpdateActivityClass();
+        //try {
+      //  GetData.delegate = this;
+
+      //  GetData.execute();//.wait();
+>>>>>>> master
         //} catch (InterruptedException e) {
         //    e.printStackTrace();
        // }
@@ -216,6 +205,11 @@ public class MyContentProvider extends ContentProvider implements AsyncResponse 
 
         getContext().getContentResolver().notifyChange(uri, null);
         return count;
+    }
+
+    //This is a dummy function for getting some experience
+    public int getExperience(){
+        return 5000;
     }
 
 
