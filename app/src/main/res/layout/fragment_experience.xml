@@ -14,12 +14,12 @@
         android:progress="75"
         android:progressDrawable="@drawable/style_circle_fill"
         android:secondaryProgress="10" />
-
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="65dp"
         android:textAppearance="?android:attr/textAppearanceSmall"/>
+
 
 </FrameLayout>

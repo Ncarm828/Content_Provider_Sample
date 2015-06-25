@@ -4,9 +4,6 @@
     tools:context="appsandmaps.temple.edu.content_provider.LevelFragment">
 
 
-
-
-
         <ProgressBar
             android:id="@+id/progressBar1"
             style="?android:attr/progressBarStyleHorizontal"
