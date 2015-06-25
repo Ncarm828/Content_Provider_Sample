@@ -36,14 +36,12 @@ public class home extends Activity {
         fragmentTransaction.commit();
 
 
-
         //setting the fragments to show these values
         FragmentManager fragmentManagerLevel = getFragmentManager();
         FragmentTransaction fragmentTransactionLevel = fragmentManager.beginTransaction();
         LevelFragment levelFragment = new LevelFragment(level);
         fragmentTransactionLevel.replace(R.id.fragmenLevel, levelFragment);
         fragmentTransactionLevel.commit();
-
 
 
         //Calling Nick's mainActivity
