@@ -42,6 +42,7 @@ import java.net.URL;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Random;
 
 import android.content.pm.PackageInfo;
 
@@ -100,46 +101,17 @@ import android.content.pm.PackageInfo;
 
             new HurryUpandWait().execute();
 
-            //press the button once the connections are good then it startes displaying the current steps
-            //!* reports steps every five minute by default and cannot change this yet *!
-         //   btnStart = (Button) findViewById(R.id.buttonSTR);
-
-           /* btnStart.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    getPedometerSensorInfo();
-                    getPedometerEvent();
-
-
-                }
-            });*/
-
-            etExp = (EditText) findViewById(R.id.etExp);
-            etLevel = (EditText) findViewById(R.id.etLevel);
-            btnExp = (Button) findViewById(R.id.btnExp);
-            btnLevel = (Button) findViewById(R.id.btnLevel);
 
             //Setting Button click action which loads a fragment by passing value of number as a
             //parameter in one Constructor.
-
-       /*     btnExp.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    FragmentManager fragmentManager = getFragmentManager();
-                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                    ExperienceFragment expFragment = new ExperienceFragment(Integer.parseInt(etExp.getText().toString()));
-                    fragmentTransaction.replace(R.id.fragmentExp, expFragment);
-                    fragmentTransaction.commit();
-                }
-            });*/
-
-            //Setting Button click action which loads a fragment by passing value of number as a
-            //parameter in one Constructor.
+            Random r = new Random();
+            int level = r.nextInt(10 - 3) + 3;
 
 
                     FragmentManager fragmentManager = getFragmentManager();
                     FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                  //   LevelFragment levelFragment = new LevelFragment(Integer.parseInt(etLevel.getText().toString()));
-            LevelFragment levelFragment = new LevelFragment(2);
+            LevelFragment levelFragment = new LevelFragment(level);
                     fragmentTransaction.replace(R.id.fragmenLevel, levelFragment);
                     fragmentTransaction.commit();
 
@@ -217,8 +189,8 @@ import android.content.pm.PackageInfo;
                      //   updateNote("1");
 
                         updateInformation("1");
-                      //  textViews = (TextView) findViewById(R.id.textView8);
-                      //  textViews.setText(Steps);
+                        textViews = (TextView) findViewById(R.id.txtStepCount);
+                        textViews.setText(Steps);
 
 
 
@@ -250,8 +222,8 @@ import android.content.pm.PackageInfo;
                     String title = cur.getString(cur.getColumnIndex(ContractClass.FitNessTable.STEPS));
                     String Steps = cur.getString(cur.getColumnIndex(ContractClass.FitNessTable.EXPERIENCE));
                     System.out.println("Id = " + Id + ", Note Title : " + title + ", Steps :" + Steps);
-                 //   textViews = (TextView) findViewById(R.id.textView8);
-                 //   textViews.setText(title);
+                    textViews = (TextView) findViewById(R.id.txtStepCount);
+                    textViews.setText(title);
 
                    StepHolder = (Float.valueOf(title)/5000)*100;
                    // makeToast(StepHolder.toString());
@@ -277,47 +249,6 @@ import android.content.pm.PackageInfo;
             Toast.makeText(this, text, Toast.LENGTH_LONG).show();
         }
 
-    /*    void circlebar(final String steps){
-
-            final TextView tv;
-            final ProgressBar pBar;
-            final int[] pStatus = {0};
-            final Handler handler = new Handler();
-
-            tv = (TextView) findViewById(R.id.textView1);
-            pBar = (ProgressBar) findViewById(R.id.progressBar1);
-
-            final int percent = ((Integer.parseInt(steps)*100)/50000);
-
-            new Thread(new Runnable() {
-
-                @Override
-                public void run() {
-                    // TODO Auto-generated method stub
-                    while (pStatus[0] <= percent) {
-
-                        handler.post(new Runnable() {
-
-                            @Override
-                            public void run() {
-                                // TODO Auto-generated method stub
-                                pBar.setProgress(pStatus[0]);
-                                pBar.setSecondaryProgress(pStatus[0] + 3);
-                                tv.setText(steps + "/" + 50000);
-                            }
-                        });
-                        try {
-                            // Sleep for 200 milliseconds.
-                            // Just to display the progress slowly
-                            Thread.sleep(20);
-                        } catch (InterruptedException e) {
-                            e.printStackTrace();
-                        }
-                        pStatus[0]++;
-                    }
-                }
-            }).start();
-        }*/
 
 
 

@@ -9,11 +9,13 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.util.Random;
+
 
 public class LevelFragment extends Fragment {
     TextView tv;
     ProgressBar pBar;
-    int pStatus = 2;
+    int pStatus = 0;
     int endLevel =0 ;
     private Handler handler = new Handler();
     public LevelFragment() {
@@ -29,6 +31,7 @@ public class LevelFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_level, container, false);
         tv = (TextView) v.findViewById(R.id.textView1);
         pBar = (ProgressBar) v.findViewById(R.id.progressBar1);
+
         while (pStatus <= endLevel) {
             pBar.setProgress(pStatus);
             pBar.setSecondaryProgress(100);
