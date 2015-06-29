@@ -123,6 +123,7 @@ import android.content.pm.PackageInfo;
         public void getPedometerSensorInfo (){
             pedoSensorList =
                     mServiceManager.getSensorList(SrsRemoteSensor.TYPE_PEDOMETER);
+
             if (pedoSensorList != null) {
                 SrsRemoteSensor sensor;
                 sensor = pedoSensorList.get(0);
